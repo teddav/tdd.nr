@@ -1,15 +1,8 @@
-pub mod data;
-pub mod header;
-pub mod sig;
-pub mod mystr;
-mod tests;
-
-use dep::date::Date;
-use data::{parse_data, SignedData};
-use header::recreate_2ddoc_header;
-use mystr::MyStrBounded;
-use sig::verify_signature;
-use std::collections::bounded_vec::BoundedVec;
+use tdd::data::{parse_data, SignedData};
+use tdd::Date;
+use tdd::header::recreate_2ddoc_header;
+use tdd::mystr::MyStrBounded;
+use tdd::sig::verify_signature;
 
 fn main(
     version: pub u8,

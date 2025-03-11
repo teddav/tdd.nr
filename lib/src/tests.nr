@@ -1,9 +1,9 @@
 use dep::date::Date;
 
-use super::data::{parse_data, SignedData};
-use super::header::recreate_2ddoc_header;
-use super::mystr::MyStrBounded;
-use super::sig::verify_signature;
+use crate::data::{parse_data, SignedData};
+use crate::header::recreate_2ddoc_header;
+use crate::mystr::MyStrBounded;
+use crate::sig::verify_signature;
 
 #[test]
 fn test_verify_signature() {

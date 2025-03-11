@@ -1,4 +1,4 @@
-use super::mystr::{MyStrBounded, push_front};
+use crate::mystr::{MyStrBounded, push_front};
 use dep::date::Date;
 
 global EPOCH: Date = Date::new(2000, 1, 1);
