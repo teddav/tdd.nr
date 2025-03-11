@@ -2,7 +2,7 @@ use tdd::data::{parse_data, SignedData};
 use tdd::Date;
 use tdd::header::recreate_2ddoc_header;
 use tdd::mystr::MyStrBounded;
-use tdd::sig::verify_signature;
+use tdd::sig::{get_public_key, verify_signature};
 
 fn main(
     version: pub u8,
@@ -33,5 +33,7 @@ fn main(
 
     let data_hash = header.hash_var(total_len);
 
-    verify_signature(signature, data_hash);
+    let public_key = get_public_key(ca_id.as_bytes(), cert_id.as_bytes());
+
+    verify_signature(signature, data_hash, public_key);
 }

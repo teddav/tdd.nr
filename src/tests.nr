@@ -3,7 +3,7 @@ use dep::date::Date;
 use crate::data::{parse_data, SignedData};
 use crate::header::recreate_2ddoc_header;
 use crate::mystr::MyStrBounded;
-use crate::sig::verify_signature;
+use crate::sig::{get_public_key, PUBLIC_KEYS, verify_signature};
 
 #[test]
 fn test_verify_signature() {
@@ -31,7 +31,9 @@ fn test_verify_signature() {
     header.append_mut(MyStrBounded::from_str(data));
 
     let data_hash = header.hash();
-    verify_signature(signature, data_hash);
+
+    let key = get_public_key("FR00".as_bytes(), "0001".as_bytes());
+    verify_signature(signature, data_hash, key);
 }
 
 #[test]
@@ -68,4 +70,24 @@ fn test_2ddoc_header() {
     let s = header.as_str();
     // println(f"s {s}");
     assert(s == "DC03FR000001FFFF18EAA501");
+}
+
+#[test]
+pub fn test_public_keys() {
+    let key = PUBLIC_KEYS.get(("FR00".as_bytes(), "0001".as_bytes()));
+    assert(key.is_some());
+    assert(
+        key.unwrap().x
+            == [
+                169, 143, 13, 124, 205, 98, 128, 136, 147, 190, 196, 212, 54, 231, 157, 24, 52, 161,
+                214, 224, 1, 215, 15, 28, 76, 220, 205, 157, 158, 47, 226, 41,
+            ],
+    );
+    assert(
+        key.unwrap().y
+            == [
+                247, 36, 5, 20, 232, 221, 192, 202, 152, 208, 199, 68, 12, 156, 196, 146, 132, 154,
+                15, 189, 167, 63, 195, 146, 244, 218, 10, 224, 127, 132, 194, 60,
+            ],
+    );
 }
