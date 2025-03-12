@@ -78,3 +78,88 @@ impl<let N: u32> MyStrBounded<N> {
     }
 }
 
+pub fn str_to_lower<let N: u32>(s: str<N>) -> str<N> {
+    let mut result = [0; N];
+    let s = s.as_bytes();
+    for i in 0..N {
+        let c = s[i];
+        if c >= 65 & c <= 90 {
+            result[i] = c + 32;
+        } else {
+            result[i] = c;
+        }
+    }
+    result.as_str_unchecked()
+}
+
+pub fn str_to_upper<let N: u32>(s: str<N>) -> str<N> {
+    let mut result = [0; N];
+    let s = s.as_bytes();
+    for i in 0..N {
+        let c = s[i];
+        if c >= 97 & c <= 122 {
+            result[i] = c - 32;
+        } else {
+            result[i] = c;
+        }
+    }
+    result.as_str_unchecked()
+}
+
+pub fn str_vec_to_lower<let N: u32>(s: BoundedVec<u8, N>) -> BoundedVec<u8, N> {
+    let mut result: BoundedVec<u8, N> = BoundedVec::new();
+    let storage = s.storage();
+    for i in 0..N {
+        if i < s.len() {
+            let c = storage[i];
+            if c >= 65 & c <= 90 {
+                result.push(c + 32);
+            } else {
+                result.push(c);
+            }
+        }
+    }
+    result
+}
+
+pub fn str_vec_to_upper<let N: u32>(s: BoundedVec<u8, N>) -> BoundedVec<u8, N> {
+    let mut result: BoundedVec<u8, N> = BoundedVec::new();
+    let storage = s.storage();
+    for i in 0..N {
+        if i < s.len() {
+            let c = storage[i];
+            if c >= 97 & c <= 122 {
+                result.push(c - 32);
+            } else {
+                result.push(c);
+            }
+        }
+    }
+    result
+}
+
+#[test]
+fn test_str_lower_upper() {
+    let name = "DaViD";
+
+    let lower_name = str_to_lower(name);
+    assert(lower_name == "david");
+
+    let upper_name1 = str_to_upper(name);
+    let upper_name2 = str_to_upper(lower_name);
+    assert(upper_name1 == "DAVID");
+    assert(upper_name2 == "DAVID");
+}
+
+#[test]
+fn test_str_vec_to_lower_upper() {
+    let name: BoundedVec<u8, 20> = BoundedVec::from_array("DaViD".as_bytes());
+
+    let lower_name = str_vec_to_lower(name);
+    assert_eq(lower_name, BoundedVec::from_array("david".as_bytes()));
+
+    let upper_name1 = str_vec_to_upper(name);
+    let upper_name2 = str_vec_to_upper(lower_name);
+    assert(upper_name1 == BoundedVec::from_array("DAVID".as_bytes()));
+    assert(upper_name2 == BoundedVec::from_array("DAVID".as_bytes()));
+}
