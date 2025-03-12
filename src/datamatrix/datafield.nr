@@ -1,6 +1,6 @@
-pub struct SignedData<let N: u32> {
+pub struct DataField<let MAX_DATA_SIZE: u32> {
     pub id: str<2>,
-    pub data: BoundedVec<u8, N>,
+    pub data: BoundedVec<u8, MAX_DATA_SIZE>,
 }
 
 // pub fn parse_data<let N: u32, let M: u32>(signed_data: BoundedVec<SignedData<N>, M>) -> [u8] {
@@ -19,9 +19,7 @@ pub struct SignedData<let N: u32> {
 //     full_data
 // }
 
-pub fn parse_data<let N: u32, let M: u32>(
-    signed_data: BoundedVec<SignedData<N>, M>,
-) -> [u8; N * M] {
+pub fn parse_data<let N: u32, let M: u32>(signed_data: BoundedVec<DataField<N>, M>) -> [u8; N * M] {
     let mut full_data: [u8; N * M] = [0; N * M];
     let mut index = 0;
     for doc in signed_data.storage() {

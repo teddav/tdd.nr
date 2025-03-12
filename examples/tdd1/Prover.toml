@@ -1,8 +1,3 @@
-ca_id = "FR00"
-cert_id = "0001"
-country_id = "FR"
-doc_type_id = "A5"
-perimeter_id = "1"
 signature = [
     160,
     107,
@@ -70,15 +65,14 @@ signature = [
     71,
 ]
 total_len = "47"
-version = "3"
 
-[data]
+[data.data]
 len = "2"
 
-[[data.storage]]
+[[data.data.storage]]
 id = "AL"
 
-[data.storage.data]
+[data.data.storage.data]
 len = "11"
 storage = [
     "49",
@@ -103,10 +97,10 @@ storage = [
     "0",
 ]
 
-[[data.storage]]
+[[data.data.storage]]
 id = "AI"
 
-[data.storage.data]
+[data.data.storage.data]
 len = "8"
 storage = [
     "51",
@@ -131,12 +125,20 @@ storage = [
     "0",
 ]
 
-[emit_date]
+[data.header]
+ca_id = "FR00"
+cert_id = "0001"
+country_id = "FR"
+doc_type_id = "A5"
+perimeter_id = "1"
+version = "3"
+
+[data.header.emit_date]
 day = "06"
 month = "06"
 year = "2179"
 
-[sign_date]
+[data.header.sign_date]
 day = "18"
 month = "06"
 year = "2017"

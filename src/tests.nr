@@ -1,9 +1,10 @@
 use dep::date::Date;
 
-use crate::data::{parse_data, SignedData};
-use crate::header::recreate_2ddoc_header;
+use crate::datamatrix::{
+    DataField, get_public_key, Header, parse_data, PUBLIC_KEYS, recreate_2ddoc_header,
+    verify_signature,
+};
 use crate::mystr::MyStrBounded;
-use crate::sig::{get_public_key, PUBLIC_KEYS, verify_signature};
 
 #[test]
 fn test_verify_signature() {
@@ -16,16 +17,18 @@ fn test_verify_signature() {
         200, 224, 71,
     ];
 
-    let mut header = recreate_2ddoc_header::<100>(
-        3,
-        "FR00",
-        "0001",
-        Date::new(2179, 06, 06),
-        Date::new(2017, 06, 18),
-        "A5",
-        1,
-        "FR",
-    );
+    let header = Header {
+        version: 3,
+        ca_id: "FR00",
+        cert_id: "0001",
+        emit_date: Date::new(2179, 06, 06),
+        sign_date: Date::new(2017, 06, 18),
+        doc_type_id: "A5",
+        perimeter_id: 1,
+        country_id: "FR",
+    };
+
+    let mut header = recreate_2ddoc_header::<100>(header);
 
     let data = "AL12345678901AI30112019";
     header.append_mut(MyStrBounded::from_str(data));
@@ -38,11 +41,9 @@ fn test_verify_signature() {
 
 #[test]
 fn test_parse_data() {
-    let mut signed_data: BoundedVec<SignedData<20>, 5> = BoundedVec::new();
-    signed_data.push(
-        SignedData { id: "AL", data: BoundedVec::from_array("12345678901".as_bytes()) },
-    );
-    signed_data.push(SignedData { id: "AI", data: BoundedVec::from_array("30112019".as_bytes()) });
+    let mut signed_data: BoundedVec<DataField<20>, 5> = BoundedVec::new();
+    signed_data.push(DataField { id: "AL", data: BoundedVec::from_array("12345678901".as_bytes()) });
+    signed_data.push(DataField { id: "AI", data: BoundedVec::from_array("30112019".as_bytes()) });
     let full_data = parse_data(signed_data);
     // assert(full_data == "AL12345678901AI30112019".as_bytes());
     let expected = [
@@ -56,16 +57,17 @@ fn test_parse_data() {
 
 #[test]
 fn test_2ddoc_header() {
-    let header = recreate_2ddoc_header::<24>(
-        3,
-        "FR00",
-        "0001",
-        Date::new(2179, 06, 06),
-        Date::new(2017, 06, 18),
-        "A5",
-        1,
-        "FR",
-    );
+    let header = Header {
+        version: 3,
+        ca_id: "FR00",
+        cert_id: "0001",
+        emit_date: Date::new(2179, 06, 06),
+        sign_date: Date::new(2017, 06, 18),
+        doc_type_id: "A5",
+        perimeter_id: 1,
+        country_id: "FR",
+    };
+    let header = recreate_2ddoc_header::<24>(header);
     // println(f"HEADER {header}");
     let s = header.as_str();
     // println(f"s {s}");
