@@ -13,7 +13,6 @@ pub struct DataMatrix<let MAX_FIELDS: u32, let MAX_FIELD_SIZE: u32> {
 
 pub struct FieldMatcher<let MAX_DATA_SIZE: u32> {
     pub pattern: BoundedVec<u8, MAX_DATA_SIZE>,
-    pub pattern_length: u32,
     pub tdd_field_id: str<2>,
 }
 
@@ -24,7 +23,7 @@ impl<let MAX_FIELDS: u32, let MAX_FIELD_SIZE: u32> DataMatrix<MAX_FIELDS, MAX_FI
     ) {
         for i in 0..MAX_FIELDS {
             if self.data.get(i).id == needle.tdd_field_id {
-                self.data.get(i).data_match(needle.pattern, needle.pattern_length, false);
+                self.data.get(i).data_match(needle.pattern, false);
             }
         }
     }

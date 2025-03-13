@@ -33,7 +33,6 @@ impl<let N: u32> DataField<N> {
     pub fn data_match<let MAX_NEEDLE_SIZE: u32>(
         self,
         needle: BoundedVec<u8, MAX_NEEDLE_SIZE>,
-        needle_size: u32,
         case_sensitive: bool,
     ) {
         let (haystack, needle) = if case_sensitive {
@@ -43,7 +42,7 @@ impl<let N: u32> DataField<N> {
         };
 
         let haystack: StringBody64 = StringBody::new(haystack.storage(), N);
-        let needle: SubString32 = SubString::new(needle.storage(), needle_size);
+        let needle: SubString32 = SubString::new(needle.storage(), needle.len() as u32);
         let (result, _) = haystack.substring_match(needle);
         assert(result);
     }
@@ -55,7 +54,7 @@ fn test_data_match() {
         DataField::<20> { id: "60", data: BoundedVec::from_array("David Hello".as_bytes()) };
     let expected_data: BoundedVec<u8, 20> = BoundedVec::from_array("David".as_bytes());
 
-    data_field.data_match(expected_data, 5, true);
-    data_field.data_match(expected_data, 5, false);
+    data_field.data_match(expected_data, true);
+    data_field.data_match(expected_data, false);
 }
 

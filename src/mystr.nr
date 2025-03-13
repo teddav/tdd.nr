@@ -78,7 +78,7 @@ impl<let N: u32> MyStrBounded<N> {
     }
 }
 
-pub fn str_to_lower<let N: u32>(s: str<N>) -> str<N> {
+fn str_to_lower<let N: u32>(s: str<N>) -> str<N> {
     let mut result = [0; N];
     let s = s.as_bytes();
     for i in 0..N {
@@ -92,7 +92,7 @@ pub fn str_to_lower<let N: u32>(s: str<N>) -> str<N> {
     result.as_str_unchecked()
 }
 
-pub fn str_to_upper<let N: u32>(s: str<N>) -> str<N> {
+fn str_to_upper<let N: u32>(s: str<N>) -> str<N> {
     let mut result = [0; N];
     let s = s.as_bytes();
     for i in 0..N {
@@ -122,7 +122,7 @@ pub fn str_vec_to_lower<let N: u32>(s: BoundedVec<u8, N>) -> BoundedVec<u8, N> {
     result
 }
 
-pub fn str_vec_to_upper<let N: u32>(s: BoundedVec<u8, N>) -> BoundedVec<u8, N> {
+fn str_vec_to_upper<let N: u32>(s: BoundedVec<u8, N>) -> BoundedVec<u8, N> {
     let mut result: BoundedVec<u8, N> = BoundedVec::new();
     let storage = s.storage();
     for i in 0..N {
