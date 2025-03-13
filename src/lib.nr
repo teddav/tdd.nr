@@ -5,7 +5,7 @@ pub use dep::date::Date;
 mod tests;
 
 use datamatrix::{
-    DataMatrix, get_public_key, Needle, parse_data, recreate_2ddoc_header, verify_signature,
+    DataMatrix, FieldMatcher, get_public_key, parse_data, recreate_2ddoc_header, verify_signature,
 };
 use mystr::MyStrBounded;
 
@@ -13,7 +13,7 @@ pub fn verify_tdd<let MAX_HEADER_SIZE: u32, let MAX_FIELDS: u32, let MAX_FIELD_S
     data: DataMatrix<MAX_FIELDS, MAX_FIELD_SIZE>,
     total_len: u64,
     signature: [u8; 64],
-    data_checks: pub BoundedVec<Needle<MAX_FIELD_SIZE>, MAX_DATA_CHECKS>,
+    data_checks: pub BoundedVec<FieldMatcher<MAX_FIELD_SIZE>, MAX_DATA_CHECKS>,
 ) {
     let mut header = recreate_2ddoc_header::<MAX_HEADER_SIZE>(data.header);
 
