@@ -18,7 +18,10 @@ pub struct FieldMatcher<let MAX_DATA_SIZE: u32> {
 }
 
 impl<let MAX_FIELDS: u32, let MAX_FIELD_SIZE: u32> DataMatrix<MAX_FIELDS, MAX_FIELD_SIZE> {
-    pub fn data_match(self, needle: FieldMatcher<MAX_FIELD_SIZE>) {
+    pub fn data_match<let MAX_DATA_CHECKS_FIELD_SIZE: u32>(
+        self,
+        needle: FieldMatcher<MAX_DATA_CHECKS_FIELD_SIZE>,
+    ) {
         for i in 0..MAX_FIELDS {
             if self.data.get(i).id == needle.tdd_field_id {
                 self.data.get(i).data_match(needle.pattern, needle.pattern_length, false);

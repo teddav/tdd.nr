@@ -67,10 +67,10 @@ signature = [
 total_len = "47"
 
 [card_number]
-field_id = "AL"
-size = "11"
+pattern_length = "11"
+tdd_field_id = "AL"
 
-[card_number.data]
+[card_number.pattern]
 len = "11"
 storage = [
     "49",
