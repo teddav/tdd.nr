@@ -1,12 +1,14 @@
-use crate::mystr::{str_to_lower, str_to_upper, str_vec_to_lower};
+use crate::mystr::str_vec_to_lower;
 use dep::string_search::{StringBody, StringBody64, SubString, SubString32};
 pub struct DataField<let MAX_DATA_SIZE: u32> {
     pub id: str<2>,
     pub data: BoundedVec<u8, MAX_DATA_SIZE>,
 }
 
-pub fn parse_data<let N: u32, let M: u32>(signed_data: BoundedVec<DataField<N>, M>) -> [u8; N * M] {
-    let mut full_data: [u8; N * M] = [0; N * M];
+pub fn parse_data<let MAX_FIELDS: u32, let MAX_FIELD_SIZE: u32>(
+    signed_data: BoundedVec<DataField<MAX_FIELD_SIZE>, MAX_FIELDS>,
+) -> [u8; MAX_FIELDS * MAX_FIELD_SIZE] {
+    let mut full_data: [u8; MAX_FIELDS * MAX_FIELD_SIZE] = [0; MAX_FIELDS * MAX_FIELD_SIZE];
     let mut index = 0;
     for doc in signed_data.storage() {
         if doc.data.len() > 0 {
@@ -15,7 +17,7 @@ pub fn parse_data<let N: u32, let M: u32>(signed_data: BoundedVec<DataField<N>, 
                 index += 1;
             }
 
-            for i in 0..N {
+            for i in 0..MAX_FIELD_SIZE {
                 if i < doc.data.len() {
                     full_data[index] = doc.data.storage()[i];
                     index += 1;
@@ -28,7 +30,12 @@ pub fn parse_data<let N: u32, let M: u32>(signed_data: BoundedVec<DataField<N>, 
 }
 
 impl<let N: u32> DataField<N> {
-    pub fn data_match(self, needle: BoundedVec<u8, N>, needle_size: u32, case_sensitive: bool) {
+    pub fn data_match<let MAX_NEEDLE_SIZE: u32>(
+        self,
+        needle: BoundedVec<u8, MAX_NEEDLE_SIZE>,
+        needle_size: u32,
+        case_sensitive: bool,
+    ) {
         let (haystack, needle) = if case_sensitive {
             (self.data, needle)
         } else {
