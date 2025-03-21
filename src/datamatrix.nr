@@ -21,10 +21,13 @@ impl<let MAX_FIELDS: u32, let MAX_FIELD_SIZE: u32> DataMatrix<MAX_FIELDS, MAX_FI
         self,
         needle: FieldMatcher<MAX_DATA_CHECKS_FIELD_SIZE>,
     ) {
+        let mut checked: bool = false;
         for i in 0..MAX_FIELDS {
             if self.fields.get(i).id == needle.tdd_field_id {
                 self.fields.get(i).data_match(needle.pattern, false);
+                checked = true;
             }
         }
+        assert(checked);
     }
 }
