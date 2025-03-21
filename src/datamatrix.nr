@@ -8,7 +8,7 @@ pub use sig::{get_public_key, PUBLIC_KEYS, verify_signature};
 
 pub struct DataMatrix<let MAX_FIELDS: u32, let MAX_FIELD_SIZE: u32> {
     pub header: Header,
-    pub data: BoundedVec<DataField<MAX_FIELD_SIZE>, MAX_FIELDS>,
+    pub fields: BoundedVec<DataField<MAX_FIELD_SIZE>, MAX_FIELDS>,
 }
 
 pub struct FieldMatcher<let MAX_DATA_SIZE: u32> {
@@ -22,8 +22,8 @@ impl<let MAX_FIELDS: u32, let MAX_FIELD_SIZE: u32> DataMatrix<MAX_FIELDS, MAX_FI
         needle: FieldMatcher<MAX_DATA_CHECKS_FIELD_SIZE>,
     ) {
         for i in 0..MAX_FIELDS {
-            if self.data.get(i).id == needle.tdd_field_id {
-                self.data.get(i).data_match(needle.pattern, false);
+            if self.fields.get(i).id == needle.tdd_field_id {
+                self.fields.get(i).data_match(needle.pattern, false);
             }
         }
     }

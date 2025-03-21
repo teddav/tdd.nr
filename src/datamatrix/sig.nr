@@ -3,8 +3,8 @@ use std::hash::BuildHasherDefault;
 use std::hash::poseidon2::Poseidon2Hasher;
 
 pub struct PublicKey {
-    x: [u8; 32],
-    y: [u8; 32],
+    pub x: [u8; 32],
+    pub y: [u8; 32],
 }
 
 type CA_ID = [u8; 4];

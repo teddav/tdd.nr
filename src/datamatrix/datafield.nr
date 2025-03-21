@@ -1,5 +1,5 @@
 use crate::mystr::str_vec_to_lower;
-use dep::string_search::{StringBody, StringBody64, SubString, SubString32};
+use dep::string_search::{StringBody, StringBody32, SubString, SubString32};
 pub struct DataField<let MAX_DATA_SIZE: u32> {
     pub id: str<2>,
     pub data: BoundedVec<u8, MAX_DATA_SIZE>,
@@ -41,7 +41,7 @@ impl<let N: u32> DataField<N> {
             (str_vec_to_lower(self.data), str_vec_to_lower(needle))
         };
 
-        let haystack: StringBody64 = StringBody::new(haystack.storage(), N);
+        let haystack: StringBody32 = StringBody::new(haystack.storage(), N);
         let needle: SubString32 = SubString::new(needle.storage(), needle.len() as u32);
         let (result, _) = haystack.substring_match(needle);
         assert(result);
