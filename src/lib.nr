@@ -1,5 +1,6 @@
 pub mod datamatrix;
 mod mystr;
+mod utils;
 
 mod tests;
 
@@ -34,8 +35,6 @@ pub fn verify_tdd<let MAX_HEADER_SIZE: u32, let MAX_FIELDS: u32, let MAX_FIELD_S
 
     // check data
     for needle in data_checks.storage() {
-        if needle.pattern.len() > 0 {
-            tdd.matrix.data_match(needle);
-        }
+        tdd.matrix.data_match(needle);
     }
 }
