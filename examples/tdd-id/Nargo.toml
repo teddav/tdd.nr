@@ -1,0 +1,7 @@
+[package]
+name = "tdd_id"
+type = "bin"
+authors = ["teddav"]
+
+[dependencies]
+tdd = { path = "../../" }
