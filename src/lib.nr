@@ -10,9 +10,9 @@ use datamatrix::{
 use mystr::MyStrBounded;
 
 pub struct TDD<let MAX_FIELDS: u32, let MAX_FIELD_SIZE: u32> {
-    matrix: DataMatrix<MAX_FIELDS, MAX_FIELD_SIZE>,
-    total_len: u64,
-    signature: [u8; 64],
+    pub matrix: DataMatrix<MAX_FIELDS, MAX_FIELD_SIZE>,
+    pub total_len: u64,
+    pub signature: [u8; 64],
 }
 
 pub fn verify_tdd<let MAX_HEADER_SIZE: u32, let MAX_FIELDS: u32, let MAX_FIELD_SIZE: u32, let MAX_DATA_CHECKS: u32, let MAX_DATA_CHECKS_FIELD_SIZE: u32>(

@@ -67,9 +67,13 @@ signature = [
 total_len = "47"
 
 [card_number]
+field_type = "1"
 tdd_field_id = "AL"
 
 [card_number.pattern]
+_is_some = "1"
+
+[card_number.pattern._value]
 len = "11"
 storage = [
     "49",
@@ -94,13 +98,21 @@ storage = [
     "0",
 ]
 
-[data.data]
+[card_number.value]
+_is_some = "0"
+_value = "0"
+
+[card_number.inequality]
+_is_some = "0"
+_value = "0"
+
+[data.fields]
 len = "2"
 
-[[data.data.storage]]
+[[data.fields.storage]]
 id = "AL"
 
-[data.data.storage.data]
+[data.fields.storage.data]
 len = "11"
 storage = [
     "49",
@@ -125,10 +137,10 @@ storage = [
     "0",
 ]
 
-[[data.data.storage]]
+[[data.fields.storage]]
 id = "AI"
 
-[data.data.storage.data]
+[data.fields.storage.data]
 len = "8"
 storage = [
     "51",
