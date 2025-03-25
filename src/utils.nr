@@ -3,7 +3,7 @@
 global ZERO_INDEX: u8 = 48;
 global NINE_INDEX: u8 = 57;
 
-pub fn to_uint_str<let N: u32>(s: str<N>) -> u64 {
+pub fn str_to_uint<let N: u32>(s: str<N>) -> u64 {
     let mut result = 0;
     for i in 0..N {
         let byte = s.as_bytes()[i];
@@ -14,7 +14,7 @@ pub fn to_uint_str<let N: u32>(s: str<N>) -> u64 {
     result
 }
 
-pub fn to_uint_vec<let N: u32>(s: BoundedVec<u8, N>) -> u64 {
+pub fn boundedvec_to_uint<let N: u32>(s: BoundedVec<u8, N>) -> u64 {
     let mut result = 0;
     for i in 0..N {
         if i < s.len() {
@@ -29,10 +29,10 @@ pub fn to_uint_vec<let N: u32>(s: BoundedVec<u8, N>) -> u64 {
 
 #[test]
 fn test_str_to_uint() {
-    let num = to_uint_str("12345");
+    let num = str_to_uint("12345");
     assert(num == 12345);
 
     let b: BoundedVec<u8, 10> = BoundedVec::from_array("654321".as_bytes());
-    let num = to_uint_vec(b);
+    let num = boundedvec_to_uint(b);
     assert(num == 654321);
 }

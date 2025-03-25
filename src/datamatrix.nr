@@ -6,7 +6,7 @@ pub use datafield::{DataField, parse_data};
 pub use header::{Header, recreate_2ddoc_header};
 pub use sig::{get_public_key, PUBLIC_KEYS, verify_signature};
 
-use crate::utils::to_uint_vec;
+use crate::utils::boundedvec_to_uint;
 
 pub struct DataMatrix<let MAX_FIELDS: u32, let MAX_FIELD_SIZE: u32> {
     pub header: Header,
@@ -61,7 +61,7 @@ impl<let MAX_FIELDS: u32, let MAX_FIELD_SIZE: u32> DataMatrix<MAX_FIELDS, MAX_FI
                         let _ = data.pop();
                     }
 
-                    let value = to_uint_vec(data);
+                    let value = boundedvec_to_uint(data);
                     let inequality = needle.inequality.unwrap();
 
                     if inequality == 0 {
