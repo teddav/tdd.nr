@@ -59,8 +59,12 @@ async function prove_UltraPlonk() {
 }
 
 async function prove_UltraHonk() {
-  execSync("bb prove -b ./first/target/first.json -w ./first/target/first.gz -o ./first/proof --output_format fields");
-  execSync("bb write_vk -b ./first/target/first.json -o ./first/proof --output_format fields");
+  // execSync("nargo execute --package first");
+  // execSync("nargo compile --package recurse");
+  execSync(
+    "bb prove -b ./first/target/first.json -w ./first/target/first.gz -o ./first/proof --init_kzg_accumulator --honk_recursion 1 --output_format fields"
+  );
+  execSync("bb write_vk -b ./first/target/first.json -o ./first/proof --init_kzg_accumulator --honk_recursion 1 --output_format fields");
 
   const noir = new Noir(CIRCUITS.first);
   const backend = new UltraHonkBackend(CIRCUITS.first.bytecode, { threads: os.cpus() });
