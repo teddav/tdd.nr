@@ -2,6 +2,3 @@
 name = "recurse"
 type = "bin"
 authors = ["teddav"]
-
-[dependencies]
-tdd = { path = "../../../" }

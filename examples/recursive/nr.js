@@ -58,13 +58,25 @@ async function prove_UltraPlonk() {
   assert(verified);
 }
 
+function proofToFields(bytes) {
+  // Start from index 4 and chunk into 32-byte segments
+  const fields = [];
+  for (let i = 4; i < bytes.length; i += 32) {
+    const fieldBytes = new Uint8Array(32);
+    const end = Math.min(i + 32, bytes.length);
+    for (let j = 0; j < end - i; j++) {
+      fieldBytes[j] = bytes[i + j];
+    }
+    fields.push(Buffer.from(fieldBytes));
+  }
+  return fields.map((field) => "0x" + field.toString("hex"));
+}
+
 async function prove_UltraHonk() {
   // execSync("nargo execute --package first");
   // execSync("nargo compile --package recurse");
-  execSync(
-    "bb prove -b ./first/target/first.json -w ./first/target/first.gz -o ./first/proof --init_kzg_accumulator --honk_recursion 1 --output_format fields"
-  );
-  execSync("bb write_vk -b ./first/target/first.json -o ./first/proof --init_kzg_accumulator --honk_recursion 1 --output_format fields");
+  // execSync("bb prove -b ./first/target/first.json -w ./first/target/first.gz -o ./first/proof --recursive --honk_recursion 1 --output_format fields");
+  // execSync("bb write_vk -b ./first/target/first.json -o ./first/proof --init_kzg_accumulator --honk_recursion 1 --output_format fields");
 
   const noir = new Noir(CIRCUITS.first);
   const backend = new UltraHonkBackend(CIRCUITS.first.bytecode, { threads: os.cpus() });
@@ -82,10 +94,12 @@ async function prove_UltraHonk() {
   console.timeEnd("prove");
   console.log("proof", proof);
 
-  // // VK
-  // const publicInputsCount = 1;
-  const proofAsFields = JSON.parse(fs.readFileSync("./first/proof/proof_fields.json"));
-  const vkAsFields = JSON.parse(fs.readFileSync("./first/proof/vk_fields.json"));
+  // VK
+  const publicInputsCount = 1;
+  // const proofAsFields = JSON.parse(fs.readFileSync("./first/proof/proof_fields.json"));
+  // const vkAsFields = JSON.parse(fs.readFileSync("./first/proof/vk_fields.json"));
+  const proofAsFields = proofToFields(proof.proof);
+  const { vkAsFields } = await backend.generateRecursiveProofArtifacts(proof, publicInputsCount);
   const vkHash = "0x" + "0".repeat(64);
 
   // VERIFY proof1

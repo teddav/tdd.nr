@@ -2,7 +2,7 @@ use dep::std::verify_proof;
 
 fn main(
     verification_key: [Field; 128],
-    proof: [Field; 457],
+    proof: [Field; 456],
     public_inputs: [Field; 1],
     key_hash: Field,
 ) {
