@@ -1,5 +1,4 @@
-use std::hash::sha256_var;
-// use dep::sha256::sha256_var;
+use dep::sha256::sha256_var;
 
 pub struct MyStrBounded<let N: u32> {
     pub data: BoundedVec<u8, N>,

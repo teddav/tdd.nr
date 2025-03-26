@@ -4,4 +4,4 @@ type = "bin"
 authors = ["teddav"]
 
 [dependencies]
-tdd = { path = "../../" }
+tdd = { path = "../../lib" }

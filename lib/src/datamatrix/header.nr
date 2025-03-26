@@ -34,7 +34,6 @@ pub fn recreate_2ddoc_header<let N: u32>(header: Header) -> MyStrBounded<N> {
 }
 
 fn diff_date_as_hex_str(date: Date) -> MyStrBounded<4> {
-    // TO CHECK: if the date is always 2 bytes (4 char)
     let length = 4;
 
     let mut diff = date.get_duration_in_days(EPOCH, true);
