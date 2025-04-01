@@ -17,7 +17,7 @@ pub struct TDD<let MAX_FIELDS: u32, let MAX_FIELD_SIZE: u32> {
 
 pub fn verify_tdd<let MAX_HEADER_SIZE: u32, let MAX_FIELDS: u32, let MAX_FIELD_SIZE: u32, let MAX_DATA_CHECKS: u32, let MAX_DATA_CHECKS_FIELD_SIZE: u32>(
     tdd: TDD<MAX_FIELDS, MAX_FIELD_SIZE>,
-    data_checks: pub BoundedVec<FieldMatcher<MAX_DATA_CHECKS_FIELD_SIZE>, MAX_DATA_CHECKS>,
+    data_checks: BoundedVec<FieldMatcher<MAX_DATA_CHECKS_FIELD_SIZE>, MAX_DATA_CHECKS>,
 ) {
     let mut header = recreate_2ddoc_header::<MAX_HEADER_SIZE>(tdd.matrix.header);
 

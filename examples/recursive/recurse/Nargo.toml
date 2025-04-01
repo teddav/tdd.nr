@@ -1,4 +1,0 @@
-[package]
-name = "recurse"
-type = "bin"
-authors = ["teddav"]

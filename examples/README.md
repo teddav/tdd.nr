@@ -1,32 +1,18 @@
-```bash
-bbup -v 0.78.0
-
-cd first
-CIRCUIT_NAME="first"
-mkdir proof
-
-bb prove -v -b "./target/$CIRCUIT_NAME.json" -w "./target/$CIRCUIT_NAME.gz" -o ./proof
-bb write_vk -b "./target/$CIRCUIT_NAME.json" -o ./proof
-bb verify -k ./proof/vk -p ./proof/proof
-```
-
-as fields
+# Profiler
 
 ```bash
-# bb OLD_API write_recursion_inputs_ultra_honk -b "./target/first.json" -o ./proof --recursive
-bb prove -v -b "./target/$CIRCUIT_NAME.json" -w "./target/$CIRCUIT_NAME.gz" -o ./proof --output_format bytes_and_fields --honk_recursion 1 --recursive --init_kzg_accumulator
-bb write_vk -v -b "./target/$CIRCUIT_NAME.json" -o ./proof --output_format bytes_and_fields --honk_recursion 1 --init_kzg_accumulator
-bb verify -k ./proof/vk -p ./proof/proof
-```
+noirup -v nightly-2025-04-01
 
-- remove first value (public input) from proof_fields.json
-- copy values to recurse/Prover.toml
+cd $(mktemp -d)
+curl -LO https://github.com/noir-lang/noir/releases/download/nightly-2025-03-31/noir-aarch64-unknown-linux-gnu.tar.gz
+tar -xvzf noir-aarch64-unknown-linux-gnu.tar.gz
+mv noir-profiler ~/.nargo/bin/
 
-```bash
-CIRCUIT_NAME="recurse"
-mkdir proof
+cd /app
+rm -rf target
 
-bb prove -v -b "./target/$CIRCUIT_NAME.json" -w "./target/$CIRCUIT_NAME.gz" -o ./proof --recursive
-bb write_vk -v -b "./target/$CIRCUIT_NAME.json" -o ./proof --honk_recursion 1
-bb verify -k ./proof/vk -p ./proof/proof
+nargo compile --package tdd_id
+nargo execute --package tdd_id
+
+noir-profiler opcodes --artifact-path ./target/tdd_id.json --output ./target/
 ```
