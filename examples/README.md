@@ -11,8 +11,8 @@ mv noir-profiler ~/.nargo/bin/
 cd /app
 rm -rf target
 
-nargo compile --package tdd_id
-nargo execute --package tdd_id
+nargo compile --package tdd_multiple
+nargo execute --package tdd_multiple
 
-noir-profiler opcodes --artifact-path ./target/tdd_id.json --output ./target/
+noir-profiler opcodes --artifact-path ./target/tdd_multiple.json --output ./target/
 ```

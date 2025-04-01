@@ -1,5 +1,5 @@
 [package]
-name = "tdd_id"
+name = "tdd_multiple"
 type = "bin"
 authors = ["teddav"]
 
