@@ -57,4 +57,3 @@ fn test_data_match() {
     data_field.data_match(expected_data, true);
     data_field.data_match(expected_data, false);
 }
-

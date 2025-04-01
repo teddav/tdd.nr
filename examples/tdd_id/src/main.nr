@@ -1,6 +1,6 @@
+use tdd::{data_checks, TDD, verify_tdd};
 use tdd::datamatrix::FieldMatcher;
 use tdd::mystr::str_vec_to_lower;
-use tdd::{TDD, verify_tdd};
 
 global NUMBER_OF_FIELDS: u32 = 7;
 global FIELD_SIZE: u32 = 20;
@@ -20,20 +20,16 @@ fn main(
     taxes_base_revenue: pub FieldMatcher<DATA_CHECKS_FIELD_SIZE>,
     taxes_year: pub FieldMatcher<DATA_CHECKS_FIELD_SIZE>,
 ) {
+    verify_tdd::<MAX_HEADER_SIZE, NUMBER_OF_FIELDS, FIELD_SIZE>(tdd_id);
     let data_checks_id: BoundedVec<FieldMatcher<DATA_CHECKS_FIELD_SIZE>, DATA_CHECKS_ID> =
         BoundedVec::from_array([id_first_name, id_last_name]);
-    verify_tdd::<MAX_HEADER_SIZE, NUMBER_OF_FIELDS, FIELD_SIZE, DATA_CHECKS_ID, DATA_CHECKS_FIELD_SIZE>(
-        tdd_id,
-        data_checks_id,
-    );
+    data_checks(tdd_id.matrix, data_checks_id);
 
+    verify_tdd::<MAX_HEADER_SIZE, NUMBER_OF_FIELDS, FIELD_SIZE>(tdd_taxes);
     let data_checks_taxes: BoundedVec<FieldMatcher<DATA_CHECKS_FIELD_SIZE>, DATA_CHECKS_TAXES> = BoundedVec::from_array(
         [taxes_first_name, taxes_last_name, taxes_base_revenue, taxes_year],
     );
-    verify_tdd::<MAX_HEADER_SIZE, NUMBER_OF_FIELDS, FIELD_SIZE, DATA_CHECKS_TAXES, DATA_CHECKS_FIELD_SIZE>(
-        tdd_taxes,
-        data_checks_taxes,
-    );
+    data_checks(tdd_taxes.matrix, data_checks_taxes);
 
     let first_name1 = str_vec_to_lower(id_first_name.pattern.unwrap());
     let first_name2 = str_vec_to_lower(taxes_first_name.pattern.unwrap());
