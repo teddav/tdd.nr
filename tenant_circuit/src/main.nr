@@ -8,6 +8,13 @@ global MAX_HEADER_SIZE: u32 = 100 + NUMBER_OF_FIELDS * FIELD_SIZE;
 
 global DATA_CHECKS_FIELD_SIZE: u32 = 15;
 
+struct Output {
+    first_name: BoundedVec<u8, DATA_CHECKS_FIELD_SIZE>,
+    last_name: BoundedVec<u8, DATA_CHECKS_FIELD_SIZE>,
+    base_revenue: u32,
+    year: u32,
+}
+
 fn main(
     tdd_id: TDD<NUMBER_OF_FIELDS, FIELD_SIZE>,
     id_first_name: pub BoundedVec<u8, DATA_CHECKS_FIELD_SIZE>,
@@ -17,7 +24,7 @@ fn main(
     taxes_last_name: pub BoundedVec<u8, DATA_CHECKS_FIELD_SIZE>,
     taxes_base_revenue: pub u32,
     taxes_year: pub u32,
-) {
+) -> pub Output {
     verify_tdd::<MAX_HEADER_SIZE, NUMBER_OF_FIELDS, FIELD_SIZE>(tdd_id);
     verify_tdd::<MAX_HEADER_SIZE, NUMBER_OF_FIELDS, FIELD_SIZE>(tdd_taxes);
 
@@ -46,6 +53,13 @@ fn main(
             data_check_name(field_taxes, taxes_last_name, 0);
             data_check_name(field_taxes, taxes_first_name, taxes_last_name.len() + 1);
         }
+    }
+
+    Output {
+        first_name: id_first_name,
+        last_name: id_last_name,
+        base_revenue: taxes_base_revenue,
+        year: taxes_year,
     }
 }
 
