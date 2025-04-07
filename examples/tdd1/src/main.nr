@@ -1,5 +1,5 @@
+use tdd::{data_checks, TDD, verify_tdd};
 use tdd::datamatrix::{DataMatrix, FieldMatcher};
-use tdd::{TDD, verify_tdd};
 
 global NUMBER_OF_FIELDS: u32 = 2;
 global FIELD_SIZE: u32 = 20;
@@ -15,10 +15,8 @@ fn main(
     card_number: pub FieldMatcher<DATA_CHECKS_FIELD_SIZE>,
 ) {
     let tdd = TDD { matrix: data, total_len, signature };
-    let data_checks: BoundedVec<FieldMatcher<DATA_CHECKS_FIELD_SIZE>, DATA_CHECKS> =
+    verify_tdd::<MAX_HEADER_SIZE, NUMBER_OF_FIELDS, FIELD_SIZE>(tdd);
+    let checks: BoundedVec<FieldMatcher<DATA_CHECKS_FIELD_SIZE>, DATA_CHECKS> =
         BoundedVec::from_array([card_number]);
-    verify_tdd::<MAX_HEADER_SIZE, NUMBER_OF_FIELDS, FIELD_SIZE, DATA_CHECKS, DATA_CHECKS_FIELD_SIZE>(
-        tdd,
-        data_checks,
-    );
+    data_checks(tdd.matrix, checks);
 }
