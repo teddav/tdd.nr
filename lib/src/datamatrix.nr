@@ -4,7 +4,7 @@ mod sig;
 
 pub use datafield::{DataField, parse_data};
 pub use header::{Header, recreate_2ddoc_header};
-pub use sig::{get_public_key, PUBLIC_KEYS, verify_signature};
+pub use sig::{get_public_key, PUBLIC_KEYS, PublicKey, verify_signature};
 
 use crate::utils::boundedvec_to_uint;
 

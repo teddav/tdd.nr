@@ -1,8 +1,7 @@
 use dep::date::Date;
 
 use crate::datamatrix::{
-    DataField, get_public_key, Header, parse_data, PUBLIC_KEYS, recreate_2ddoc_header,
-    verify_signature,
+    DataField, Header, parse_data, PublicKey, recreate_2ddoc_header, verify_signature,
 };
 use crate::mystr::MyStrBounded;
 
@@ -35,7 +34,16 @@ fn test_verify_signature() {
 
     let data_hash = header.hash();
 
-    let key = get_public_key("FR00".as_bytes(), "0001".as_bytes());
+    let key = PublicKey {
+        x: [
+            169, 143, 13, 124, 205, 98, 128, 136, 147, 190, 196, 212, 54, 231, 157, 24, 52, 161,
+            214, 224, 1, 215, 15, 28, 76, 220, 205, 157, 158, 47, 226, 41,
+        ],
+        y: [
+            247, 36, 5, 20, 232, 221, 192, 202, 152, 208, 199, 68, 12, 156, 196, 146, 132, 154, 15,
+            189, 167, 63, 195, 146, 244, 218, 10, 224, 127, 132, 194, 60,
+        ],
+    };
     verify_signature(signature, data_hash, key);
 }
 
@@ -76,17 +84,26 @@ fn test_2ddoc_header() {
 
 #[test]
 pub fn test_public_keys() {
-    let key = PUBLIC_KEYS.get(("FR00".as_bytes(), "0001".as_bytes()));
-    assert(key.is_some());
+    let key = PublicKey {
+        x: [
+            169, 143, 13, 124, 205, 98, 128, 136, 147, 190, 196, 212, 54, 231, 157, 24, 52, 161,
+            214, 224, 1, 215, 15, 28, 76, 220, 205, 157, 158, 47, 226, 41,
+        ],
+        y: [
+            247, 36, 5, 20, 232, 221, 192, 202, 152, 208, 199, 68, 12, 156, 196, 146, 132, 154, 15,
+            189, 167, 63, 195, 146, 244, 218, 10, 224, 127, 132, 194, 60,
+        ],
+    };
+
     assert(
-        key.unwrap().x
+        key.x
             == [
                 169, 143, 13, 124, 205, 98, 128, 136, 147, 190, 196, 212, 54, 231, 157, 24, 52, 161,
                 214, 224, 1, 215, 15, 28, 76, 220, 205, 157, 158, 47, 226, 41,
             ],
     );
     assert(
-        key.unwrap().y
+        key.y
             == [
                 247, 36, 5, 20, 232, 221, 192, 202, 152, 208, 199, 68, 12, 156, 196, 146, 132, 154,
                 15, 189, 167, 63, 195, 146, 244, 218, 10, 224, 127, 132, 194, 60,
