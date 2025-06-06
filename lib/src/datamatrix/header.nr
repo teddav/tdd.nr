@@ -40,7 +40,7 @@ fn diff_date_as_hex_str(date: Date) -> MyStrBounded<4> {
     let mut result = MyStrBounded::<4>::new();
 
     for _ in 0..length {
-        let byte = diff % 16;
+        let byte = (diff % 16) as u32;
         let digit_str = HEX_SYMBOLS[byte];
         result.data = push_front(result.data, digit_str);
         diff = diff / 16;
@@ -48,4 +48,3 @@ fn diff_date_as_hex_str(date: Date) -> MyStrBounded<4> {
 
     result
 }
-

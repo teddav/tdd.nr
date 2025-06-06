@@ -77,7 +77,7 @@ fn data_check_name<let MAX_FIELD_SIZE: u32, let MAX_NAME_SIZE: u32>(
     }
 }
 
-fn data_check_number<let MAX_FIELD_SIZE: u32, let MAX_NAME_SIZE: u32>(
+fn data_check_number<let MAX_FIELD_SIZE: u32>(
     field: DataField<MAX_FIELD_SIZE>,
     value: u32,
     inequality: u8,
